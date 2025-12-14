@@ -1,0 +1,182 @@
+{
+  "name": "Expense Auto Entry",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "add-expense",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c4c43d0d-fcbd-4407-ba72-7a6daf9d338c",
+      "name": "Webhook",
+      "webhookId": "5d16fc78-837c-4a7b-9e5a-4c5cee305947"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b003f069-8f97-4490-8828-b8da4f7146fb",
+              "name": "date",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a434d483-691b-4bba-be0e-3b0bf6dd831d",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "e83e8dc4-6264-4aaa-844e-23214ee394b3",
+              "name": "Amount",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "7918d6a1-f674-440f-ae2f-f764b04cc3dc",
+              "name": "Payment_mode",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1a4098df-e462-4e16-a56a-8fcbf691f758",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1P19pJAr9slZI68RQlACiT3yOVO5_Lo5RYz4yTA99fEs",
+          "mode": "list",
+          "cachedResultName": "expenses.csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1P19pJAr9slZI68RQlACiT3yOVO5_Lo5RYz4yTA99fEs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1P19pJAr9slZI68RQlACiT3yOVO5_Lo5RYz4yTA99fEs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "date",
+            "category": "category",
+            "amount": "amount",
+            "payment_mode": "payment_mode"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "payment_mode",
+              "displayName": "payment_mode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "51fddafc-e691-421d-ab03-5c9967e51873",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "bHqMaOcETglcgqRf",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "44c191d2-f96c-49c1-af3d-9e0f6f978212",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b78b24af8ed19da7997bf3b51790aeabc68d2132720e6b66e97743e10df00ce8"
+  },
+  "id": "whhC9rHYnp9TtSy0",
+  "tags": []
+}
