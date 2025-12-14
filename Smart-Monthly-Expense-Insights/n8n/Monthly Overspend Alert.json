@@ -1,0 +1,197 @@
+{
+  "name": "Monthly Overspend Alert",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        -208
+      ],
+      "id": "64bafa54-8ab3-4f45-b652-11b8f1a69f0d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_Mh7aB3PMnTliMYVRpQu46-JVbDdaM8N6kLiHmCo4Uw",
+          "mode": "list",
+          "cachedResultName": "Overspend_Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Mh7aB3PMnTliMYVRpQu46-JVbDdaM8N6kLiHmCo4Uw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Mh7aB3PMnTliMYVRpQu46-JVbDdaM8N6kLiHmCo4Uw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -240,
+        -208
+      ],
+      "id": "bd519059-52a5-4150-a430-e9d6401b1d81",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "bHqMaOcETglcgqRf",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ccce6aae-680d-4164-a3df-f8b468ce30cf",
+              "leftValue": "={{ $json.total_spent }}",
+              "rightValue": 2000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        240,
+        -208
+      ],
+      "id": "0512134c-6d30-4185-a1dd-b9c7caaf0f62",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "sanjanavignesh1812@gmail.com",
+        "subject": "Overspending Alert 🚨",
+        "message": "=Month: {{$json[\"month\"]}} Category: {{$json[\"category\"]}} Amount: ₹{{$json[\"total_spent\"]}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        -368
+      ],
+      "id": "ac1c9bb2-0c71-440a-b3c0-18d7b9e5e917",
+      "name": "Send a message",
+      "webhookId": "57454036-ebbf-412f-8e83-a4d5fa7c46af",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CM00JuvNYGiTrxUr",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52c16584-6603-4378-8717-5f9a0c08fec6",
+              "name": "month",
+              "value": "={{ $json.month }}",
+              "type": "string"
+            },
+            {
+              "id": "7e097702-e2c8-48d2-9259-5a9720998934",
+              "name": "category",
+              "value": "={{ $json.category }}",
+              "type": "string"
+            },
+            {
+              "id": "c12adfe7-caae-402f-9840-ed212bc7aed7",
+              "name": "total_spent",
+              "value": "={{ $json.total_spent }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        16,
+        -208
+      ],
+      "id": "0dc2a757-1c63-4b0c-af24-dfb357e8e5eb",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "91f70fd3-fc46-4522-b440-8fd6207323ea",
+  "meta": {
+    "instanceId": "b78b24af8ed19da7997bf3b51790aeabc68d2132720e6b66e97743e10df00ce8"
+  },
+  "id": "ulPMWKTQmgQSGsDI",
+  "tags": []
+}
