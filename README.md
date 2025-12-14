@@ -1,4 +1,4 @@
-# sql-beginner-project
+sql-beginner-project
 **Overview**
 A beginner-friendly project that analyses daily expenses using SQL and automates expense entry using n8n.
 **Tools Used**
